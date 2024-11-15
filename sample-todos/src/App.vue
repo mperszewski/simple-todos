@@ -1,27 +1,29 @@
-// App.vue
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
+import type { Todo } from './types'
 
-const todos = ref([
+const todos = ref<Todo[]>([
   { id: 1, text: 'Learn Vue 3 Composition API', completed: false },
   { id: 2, text: 'Build a project', completed: true },
   { id: 3, text: 'Write documentation', completed: false }
 ])
 
-const newTodo = ref('')
+const newTodo = ref<string>('')
 
-const addTodo = () => {
-  if (newTodo.value.trim()) {
-    todos.value.push({
+const addTodo = (): void => {
+  const text = newTodo.value.trim()
+  if (text) {
+    const todo: Todo = {
       id: Date.now(),
-      text: newTodo.value,
+      text,
       completed: false
-    })
+    }
+    todos.value.push(todo)
     newTodo.value = ''
   }
 }
 
-const toggleTodo = (todo) => {
+const toggleTodo = (todo: Todo): void => {
   todo.completed = !todo.completed
 }
 </script>
